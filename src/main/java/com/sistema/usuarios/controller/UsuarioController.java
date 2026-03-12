@@ -18,7 +18,8 @@ public class UsuarioController {
 
     private final UsuarioService usuarioService;
 
-    public UsuarioController(UsuarioService usuarioService) {
+    public UsuarioController(UsuarioService usuarioService)
+    {
         this.usuarioService = usuarioService;
     }
 
