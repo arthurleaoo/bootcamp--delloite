@@ -15,6 +15,6 @@ public interface UsuarioMapper {
     UsuarioResponseDto toResponseDto(Usuario usuario);
 
 
-    //metodo para pegar os dados do UsuarioRequestDTO e sobrescrever os campos no objeto entity
-    void updateEntityFromDto(UsuarioRequestDto usuarioRequestDto, @MappingTarget Usuario entity);
+    //metodo para pegar os dados do UsuarioRequestDTO e sobrescrever os campos no objeto usuario
+    void atualizaUsuarioComDto(UsuarioRequestDto usuarioRequestDto, @MappingTarget Usuario usuario);
 }

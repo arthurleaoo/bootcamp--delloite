@@ -10,7 +10,7 @@ import lombok.*;
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long id;
+    public Long id;
 
     public String nome;
 

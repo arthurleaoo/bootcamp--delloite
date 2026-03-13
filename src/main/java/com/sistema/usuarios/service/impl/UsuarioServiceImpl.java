@@ -8,36 +8,41 @@ import com.sistema.usuarios.exception.UsuarioNotFoundException;
 import com.sistema.usuarios.mapper.UsuarioMapper;
 import com.sistema.usuarios.repository.UsuarioRepository;
 import com.sistema.usuarios.service.UsuarioService;
+import com.sistema.usuarios.validation.UsuarioValidator;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
 
-    private final UsuarioRepository repository;
-    private final UsuarioMapper usuarioMapper;
+    @Autowired
+    private UsuarioRepository repository;
+    @Autowired
+    private UsuarioMapper usuarioMapper;
+    @Autowired
+    private UsuarioValidator usuarioValidator;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-    public UsuarioServiceImpl(UsuarioRepository repository, UsuarioMapper usuarioMapper) {
-        this.repository = repository;
-        this.usuarioMapper = usuarioMapper;
-    }
 
     @Override
     public UsuarioResponseDto criarUsuario(UsuarioRequestDto usuarioRequestDto) {
 
-        if (repository.existsByEmail(usuarioRequestDto.email())) {
-            throw new RuntimeException("Email já cadastrado");
-        }
-        if (repository.existsByCpf((usuarioRequestDto.cpf()))) {
-            throw new RuntimeException("CPF já cadastrado");
-        }
+        usuarioValidator.validarDadosUnicos(usuarioRequestDto, null);
 
         Usuario usuario = usuarioMapper.toEntity(usuarioRequestDto);
 
-        repository.save(usuario);
+        String senhaCriptografada = passwordEncoder.encode(usuarioRequestDto.senha());
+        usuario.setSenha(senhaCriptografada);
 
-        return usuarioMapper.toResponseDto(usuario);
+        Usuario usuarioSalvo = repository.save(usuario);
+
+        return usuarioMapper.toResponseDto(usuarioSalvo);
     }
 
     @Override
@@ -77,7 +82,12 @@ public class UsuarioServiceImpl implements UsuarioService {
         Usuario usuario = repository.findById(id)
                 .orElseThrow(() -> new UsuarioNotFoundException(id));
 
-        usuarioMapper.updateEntityFromDto(usuarioRequestDto , usuario);
+        usuarioValidator.validarDadosUnicos(usuarioRequestDto, id);
+
+        usuarioMapper.atualizaUsuarioComDto(usuarioRequestDto , usuario);
+
+        String senhaCriptografada = passwordEncoder.encode(usuarioRequestDto.senha());
+        usuario.setSenha(senhaCriptografada);
 
         Usuario usuarioAtualizado = repository.save(usuario);
         return usuarioMapper.toResponseDto(usuarioAtualizado);

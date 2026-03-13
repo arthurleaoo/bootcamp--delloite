@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-03-11T20:21:33-0300",
+    date = "2026-03-13T11:15:58-0300",
     comments = "version: 1.6.3, compiler: javac, environment: Java 21.0.8 (Oracle Corporation)"
 )
 @Component
@@ -52,14 +52,14 @@ public class UsuarioMapperImpl implements UsuarioMapper {
     }
 
     @Override
-    public void updateEntityFromDto(UsuarioRequestDto usuarioRequestDto, Usuario entity) {
+    public void atualizaUsuarioComDto(UsuarioRequestDto usuarioRequestDto, Usuario usuario) {
         if ( usuarioRequestDto == null ) {
             return;
         }
 
-        entity.setNome( usuarioRequestDto.nome() );
-        entity.setCpf( usuarioRequestDto.cpf() );
-        entity.setEmail( usuarioRequestDto.email() );
-        entity.setSenha( usuarioRequestDto.senha() );
+        usuario.setNome( usuarioRequestDto.nome() );
+        usuario.setCpf( usuarioRequestDto.cpf() );
+        usuario.setEmail( usuarioRequestDto.email() );
+        usuario.setSenha( usuarioRequestDto.senha() );
     }
 }
