@@ -47,7 +47,7 @@ class UsuarioControllerTest {
 
         when(service.criarUsuario(any(UsuarioRequestDto.class))).thenReturn(response);
 
-        mockMvc.perform(post("/usuarios/criar")
+        mockMvc.perform(post("/usuarios/create")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())

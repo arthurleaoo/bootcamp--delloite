@@ -23,7 +23,7 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     @Operation(summary = "Cria usuários")
-    @PostMapping("/criar")
+    @PostMapping("/create")
     public UsuarioResponseDto criarUsuario(@RequestBody @Valid UsuarioRequestDto usuarioRequestDtodto){
         return usuarioService.criarUsuario(usuarioRequestDtodto);
     }

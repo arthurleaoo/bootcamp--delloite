@@ -11,6 +11,7 @@ public class UsuarioValidator {
 
     private final UsuarioRepository repository;
 
+    // VALIDA SE NÃO EXISTE USUARIOS COM MESMO EMAIL E MESMO CPF
     public UsuarioValidator(UsuarioRepository repository) {
         this.repository = repository;
     }
